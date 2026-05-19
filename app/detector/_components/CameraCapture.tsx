@@ -17,6 +17,7 @@ export default function CameraCapture({ accumulated, onAccumulate, onClear }: Pr
   const [error, setError] = useState<string | null>(null)
   const [lastAnnotated, setLastAnnotated] = useState<string | null>(null)
   const [lastCount, setLastCount] = useState(0)
+  const [expectedCount, setExpectedCount] = useState<number | null>(null)
 
   async function handleCapture(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
@@ -26,7 +27,7 @@ export default function CameraCapture({ accumulated, onAccumulate, onClear }: Pr
     setLoading(true)
     setError(null)
     try {
-      const res = await detectPhoto(file)
+      const res = await detectPhoto(file, expectedCount ?? undefined)
       setLastAnnotated(res.detections.length > 0 ? res.annotated_image : null)
       setLastCount(res.detections.length)
       onAccumulate(res.detections)
@@ -50,6 +51,27 @@ export default function CameraCapture({ accumulated, onAccumulate, onClear }: Pr
           </p>
         </div>
       )}
+
+      {/* Campo de conteo esperado */}
+      <div className="rounded-xl border border-gray-200 bg-white px-4 py-3 space-y-1">
+        <label className="text-xs font-medium text-gray-600">
+          ¿Cuántas cajas hay? <span className="font-normal text-gray-400">(opcional)</span>
+        </label>
+        <div className="flex items-center gap-2">
+          <input
+            type="number"
+            min={1}
+            value={expectedCount ?? ""}
+            onChange={(e) => {
+              const v = parseInt(e.target.value)
+              setExpectedCount(isNaN(v) || v < 1 ? null : v)
+            }}
+            placeholder="—"
+            className="w-20 h-9 rounded-lg border border-gray-300 px-3 text-sm font-mono text-gray-800 focus:outline-none focus:border-blue-400"
+          />
+          <span className="text-sm text-gray-500">cajas</span>
+        </div>
+      </div>
 
       {/* Botón de captura */}
       <input
@@ -100,7 +122,7 @@ export default function CameraCapture({ accumulated, onAccumulate, onClear }: Pr
       )}
 
       {/* Resultados acumulados */}
-      <DetectionResults detections={accumulated} onClear={onClear} />
+      <DetectionResults detections={accumulated} expectedCount={expectedCount} onClear={onClear} />
     </div>
   )
 }

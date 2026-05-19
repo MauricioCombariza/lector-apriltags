@@ -19,3 +19,18 @@ export interface VideoStatusResponse {
   detections: DetectionResult[] | null
   error: string | null
 }
+
+export interface CajasPhotoResponse {
+  detected_lateral: number
+  pallet_detected: boolean
+  annotated_image: string // base64 JPEG
+}
+
+export interface CajasPhotoEntry {
+  id: string
+  annotated_image: string
+  detected: number
+  pallet_detected: boolean
+  to_add: number
+  to_subtract: number
+}

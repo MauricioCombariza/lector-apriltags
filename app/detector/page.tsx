@@ -4,14 +4,16 @@ import { useState } from "react"
 import CameraCapture from "./_components/CameraCapture"
 import VideoUpload from "./_components/VideoUpload"
 import PhotoUpload from "./_components/PhotoUpload"
+import CajasCapture from "./_components/CajasCapture"
 import type { DetectionResult } from "./_components/types"
 
-type Tab = "camera" | "video" | "photos"
+type Tab = "camera" | "video" | "photos" | "cajas"
 
 const TABS: { id: Tab; label: string; icon: string }[] = [
   { id: "camera", label: "Cámara", icon: "📸" },
   { id: "video",  label: "Video",  icon: "🎬" },
   { id: "photos", label: "Fotos",  icon: "🖼️" },
+  { id: "cajas",  label: "Cajas",  icon: "📦" },
 ]
 
 export default function DetectorPage() {
@@ -48,6 +50,7 @@ export default function DetectorPage() {
         )}
         {tab === "video" && <VideoUpload />}
         {tab === "photos" && <PhotoUpload />}
+        {tab === "cajas" && <CajasCapture />}
       </main>
 
       {/* Tab bar fija abajo */}

@@ -1,4 +1,4 @@
-import type { PhotoResponse, VideoJobResponse, VideoStatusResponse } from "./types"
+import type { CajasPhotoResponse, PhotoResponse, VideoJobResponse, VideoStatusResponse } from "./types"
 
 const BASE = process.env.NEXT_PUBLIC_API_URL ?? "https://api.combariza.com"
 
@@ -32,4 +32,10 @@ export async function startVideoDetection(file: File): Promise<VideoJobResponse>
 
 export async function getVideoStatus(jobId: string): Promise<VideoStatusResponse> {
   return get<VideoStatusResponse>(`/api/v1/detect/video/${jobId}`)
+}
+
+export async function detectCajasPhoto(file: File): Promise<CajasPhotoResponse> {
+  const fd = new FormData()
+  fd.append("file", file)
+  return post<CajasPhotoResponse>("/api/v1/cajas/photo", fd)
 }
