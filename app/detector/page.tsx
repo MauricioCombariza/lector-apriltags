@@ -11,9 +11,9 @@ type Tab = "camera" | "video" | "photos" | "cajas"
 
 const TABS: { id: Tab; label: string; icon: string }[] = [
   { id: "camera", label: "Cámara", icon: "📸" },
+  { id: "cajas",  label: "Cajas",  icon: "📦" },
   { id: "video",  label: "Video",  icon: "🎬" },
   { id: "photos", label: "Fotos",  icon: "🖼️" },
-  { id: "cajas",  label: "Cajas",  icon: "📦" },
 ]
 
 export default function DetectorPage() {
