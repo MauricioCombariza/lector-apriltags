@@ -9,9 +9,10 @@ interface Props {
   accumulated: DetectionResult[]
   onAccumulate: (results: DetectionResult[]) => void
   onClear: () => void
+  family?: string
 }
 
-export default function CameraCapture({ accumulated, onAccumulate, onClear }: Props) {
+export default function CameraCapture({ accumulated, onAccumulate, onClear, family = "tagStandard52h13" }: Props) {
   const inputRef = useRef<HTMLInputElement>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -27,7 +28,7 @@ export default function CameraCapture({ accumulated, onAccumulate, onClear }: Pr
     setLoading(true)
     setError(null)
     try {
-      const res = await detectPhoto(file, expectedCount ?? undefined)
+      const res = await detectPhoto(file, expectedCount ?? undefined, family)
       setLastAnnotated(res.detections.length > 0 ? res.annotated_image : null)
       setLastCount(res.detections.length)
       onAccumulate(res.detections)

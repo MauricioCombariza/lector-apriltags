@@ -5,7 +5,11 @@ import { startVideoDetection, getVideoStatus } from "./api"
 import type { DetectionResult } from "./types"
 import DetectionResults from "./DetectionResults"
 
-export default function VideoUpload() {
+interface Props {
+  family?: string
+}
+
+export default function VideoUpload({ family = "tagStandard52h13" }: Props) {
   const inputRef = useRef<HTMLInputElement>(null)
   const [status, setStatus] = useState<"idle" | "uploading" | "processing" | "done" | "error">("idle")
   const [progress, setProgress] = useState(0)
@@ -23,7 +27,7 @@ export default function VideoUpload() {
     setProgress(0)
 
     try {
-      const { job_id } = await startVideoDetection(file)
+      const { job_id } = await startVideoDetection(file, family)
       setStatus("processing")
       await pollJob(job_id)
     } catch (err) {

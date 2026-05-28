@@ -3,7 +3,7 @@ import "./globals.css"
 
 export const metadata: Metadata = {
   title: "Lector AprilTags — AgriVision",
-  description: "Lectura de etiquetas AprilTags tag36h11 para inventario de flores",
+  description: "Lectura de etiquetas AprilTags tagStandard52h13 para inventario de flores",
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

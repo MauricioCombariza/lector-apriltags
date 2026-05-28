@@ -13,7 +13,11 @@ interface PhotoResult {
   error?: string
 }
 
-export default function PhotoUpload() {
+interface Props {
+  family?: string
+}
+
+export default function PhotoUpload({ family = "tagStandard52h13" }: Props) {
   const inputRef = useRef<HTMLInputElement>(null)
   const [loading, setLoading] = useState(false)
   const [results, setResults] = useState<PhotoResult[]>([])
@@ -43,7 +47,7 @@ export default function PhotoUpload() {
       const sizeBeforeFile = accMap.size
       let result: PhotoResult
       try {
-        const res = await detectPhoto(file, expectedCount ?? undefined)
+        const res = await detectPhoto(file, expectedCount ?? undefined, family)
         for (const d of res.detections) {
           const ex = accMap.get(d.tag_id)
           if (!ex || d.confidence > ex.confidence) accMap.set(d.tag_id, d)

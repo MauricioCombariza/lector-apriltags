@@ -17,17 +17,19 @@ async function get<T>(path: string): Promise<T> {
   return res.json() as Promise<T>
 }
 
-export async function detectPhoto(file: File, expectedCount?: number): Promise<PhotoResponse> {
+export async function detectPhoto(file: File, expectedCount?: number, family = "tagStandard52h13"): Promise<PhotoResponse> {
   const fd = new FormData()
   fd.append("file", file)
   if (expectedCount) fd.append("expected_tags", String(expectedCount))
-  return post<PhotoResponse>("/api/v1/detect/photo", fd)
+  const qs = `?tag_family=${encodeURIComponent(family)}`
+  return post<PhotoResponse>(`/api/v1/detect/photo${qs}`, fd)
 }
 
-export async function startVideoDetection(file: File): Promise<VideoJobResponse> {
+export async function startVideoDetection(file: File, family = "tagStandard52h13"): Promise<VideoJobResponse> {
   const fd = new FormData()
   fd.append("file", file)
-  return post<VideoJobResponse>("/api/v1/detect/video", fd)
+  const qs = `?tag_family=${encodeURIComponent(family)}`
+  return post<VideoJobResponse>(`/api/v1/detect/video${qs}`, fd)
 }
 
 export async function getVideoStatus(jobId: string): Promise<VideoStatusResponse> {
